@@ -1,8 +1,5 @@
 package inputs;
 
-import static ultiz.Constants.Direction.DOWN;
-import static ultiz.Constants.Direction.UP;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -27,12 +24,10 @@ public class KeyboardInputs implements KeyListener {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_SPACE:
 		case KeyEvent.VK_W:
-		case KeyEvent.VK_PAGE_UP:
-			gamePanel.setDirection(UP);
+			gamePanel.getGame().getPlayer().setUp(true);
 			break;
 		case KeyEvent.VK_S:
-		case KeyEvent.VK_PAGE_DOWN:
-			gamePanel.setDirection(DOWN);
+			gamePanel.getGame().getPlayer().setDown(true);
 			break;
 		}
 	}
@@ -42,11 +37,10 @@ public class KeyboardInputs implements KeyListener {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_SPACE:
 		case KeyEvent.VK_W:
-		case KeyEvent.VK_PAGE_UP:
+			gamePanel.getGame().getPlayer().setUp(false);
+			break;
 		case KeyEvent.VK_S:
-		case KeyEvent.VK_PAGE_DOWN:
-			gamePanel.setAction(false);
-
+			gamePanel.getGame().getPlayer().setDown(false);
 			break;
 		}
 	}
