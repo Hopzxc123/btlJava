@@ -8,8 +8,8 @@ public class Constants {
 
 	public static class PlayerConstants {
 		public static final int RUNNING = 0;
-		public static final int DUCK = 2;
 		public static final int JUMP = 1;
+		public static final int DUCK = 2;
 		public static final int DEAD = 3;
 
 		public static int GetDino(int play_action) {

@@ -84,10 +84,14 @@ public class GamePanel extends JPanel {
 		}
 	}
 
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
+	public void updateGame() {
 		updateAnimation();
 		updatePos();
+
+	}
+
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		g.drawImage(animations[playAction][aniIndex], dinosaurX, dinosourY, dinoWidth, dinoHeight, null);
 
 	}
