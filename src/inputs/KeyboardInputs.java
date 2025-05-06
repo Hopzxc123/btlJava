@@ -39,8 +39,16 @@ public class KeyboardInputs implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_SPACE:
+		case KeyEvent.VK_W:
+		case KeyEvent.VK_PAGE_UP:
+		case KeyEvent.VK_S:
+		case KeyEvent.VK_PAGE_DOWN:
+			gamePanel.setAction(false);
 
+			break;
+		}
 	}
 
 }

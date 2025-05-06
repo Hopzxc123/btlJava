@@ -34,6 +34,8 @@ public class GamePanel extends JPanel {
 	private int dinosaurX = 50, dinosourY = windowHeight - dinoHeight;
 	private int yHeight = 17;
 
+	private boolean action = false;
+
 	public GamePanel() {
 
 		mouseInputs = new MouseInputs(this);
@@ -82,9 +84,17 @@ public class GamePanel extends JPanel {
 		} else if (direction == DOWN) {
 			playAction = DUCK;
 		}
+
+		action = true;
+
+	}
+
+	public void setAction(boolean action) {
+		this.action = action;
 	}
 
 	public void updateGame() {
+		setAnimation();
 		updateAnimation();
 		updatePos();
 
@@ -119,6 +129,18 @@ public class GamePanel extends JPanel {
 			}
 		}
 
+	}
+
+	public void setAnimation() {
+		if (action) {
+			if (playDir == UP) {
+				playAction = JUMP;
+			} else if (playDir == DOWN) {
+				playAction = DUCK;
+			}
+		} else {
+			playAction = RUNNING;
+		}
 	}
 
 }
