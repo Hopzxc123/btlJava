@@ -1,5 +1,7 @@
 package main;
 
+import static conf.GameConfig.GAME_TITLE;
+
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
@@ -12,6 +14,7 @@ public class GameWindow {
 		jframe = new JFrame();
 
 		jframe.setDefaultCloseOperation(jframe.EXIT_ON_CLOSE);
+		jframe.setTitle(GAME_TITLE);
 		jframe.add(gamePanel);
 		jframe.setResizable(false);
 		jframe.pack();

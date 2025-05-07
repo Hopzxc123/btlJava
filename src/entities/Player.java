@@ -1,11 +1,17 @@
 package entities;
 
+import static conf.GameConfig.DINO_HEIGHT;
+import static conf.GameConfig.DINO_WIDTH;
+import static conf.GameConfig.GRAVITY;
+import static conf.GameConfig.JUMP_SPEED;
+import static conf.GameConfig.WINDOW_HEIGHT;
 import static ultiz.Constants.PlayerConstants.DUCK;
 import static ultiz.Constants.PlayerConstants.GetDino;
 import static ultiz.Constants.PlayerConstants.JUMP;
 import static ultiz.Constants.PlayerConstants.RUNNING;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -19,39 +25,47 @@ public class Player extends Entity {
 	private BufferedImage[][] animations;
 	private int aniTick, aniIndex, aniSpeed = 30;
 	private int dinoHeight = 94, dinoWidth = 88;
-	private int windowHeight = 250;
-	private int dinosaurX = 50, dinosourY = windowHeight - dinoHeight;
 	private boolean up, down;
 	private boolean action = false;
+	private float dinosourY = WINDOW_HEIGHT - DINO_HEIGHT;
 	// jumping
 	private boolean inAir = false;
 	private float airSpeed = 0f;
 	private float gravity = 0.6f;
 	private float jumpSpeed = 12.0f;
+	private boolean isDead = false;
 
 	public Player(float x, float y) {
 		super(x, y);
+		this.y = this.dinosourY;// đúng vị trí đứng của dino
 		loadAnimation();
 
 	}
 
 	public void update() {
-		updatePos();
-		setAnimation();
-		updateAnimation();
+		if (!isDead) { // Nếu khủng long chưa chết, tiếp tục cập nhật vị trí và animation
+			updatePos();
+			setAnimation();
+			updateAnimation();
+		}
 
 	}
 
 	public void render(Graphics g) {
-		g.drawImage(animations[playAction][aniIndex], (int) x, (int) y, dinoWidth, dinoHeight, null);
+		if (isDead) {
 
+			g.drawImage(animations[3][0], (int) x, (int) y, DINO_WIDTH, DINO_HEIGHT, null);
+		} else {
+
+			g.drawImage(animations[playAction][aniIndex], (int) x, (int) y, DINO_WIDTH, DINO_HEIGHT, null);
+		}
 	}
 
 	private void updatePos() {
 		action = false;
 		if (inAir) {
 			y += airSpeed;
-			airSpeed += gravity;
+			airSpeed += GRAVITY;
 
 			if (y >= dinosourY) {
 				y = dinosourY;
@@ -113,6 +127,10 @@ public class Player extends Entity {
 
 	}
 
+	public Rectangle getBounds() {
+		return new Rectangle((int) x, (int) y, DINO_WIDTH, DINO_HEIGHT);
+	}
+
 	public void setBooleanDir() {
 		up = false;
 		down = false;
@@ -126,7 +144,7 @@ public class Player extends Entity {
 		this.up = up;
 		if (up && !this.inAir && y >= dinosourY) {
 			this.inAir = true;
-			this.airSpeed = -jumpSpeed; // reset lực nhảy
+			this.airSpeed = -JUMP_SPEED; // reset lực nhảy
 		}
 
 	}
@@ -139,4 +157,7 @@ public class Player extends Entity {
 		this.down = down;
 	}
 
+	public void setDead(boolean isDead) {
+		this.isDead = isDead;
+	}
 }

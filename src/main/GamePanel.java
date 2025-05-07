@@ -1,5 +1,8 @@
 package main;
 
+import static conf.GameConfig.WINDOW_HEIGHT;
+import static conf.GameConfig.WINDOW_WIDTH;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 
@@ -10,8 +13,6 @@ import inputs.MouseInputs;
 
 public class GamePanel extends JPanel {
 	private MouseInputs mouseInputs;
-	private int windowWidth = 750;
-	private int windowHeight = 250;
 	private Game game;
 
 	public GamePanel(Game game) {
@@ -25,7 +26,7 @@ public class GamePanel extends JPanel {
 	}
 
 	private void setPanelSize() {
-		Dimension size = new Dimension(windowWidth, windowHeight);
+		Dimension size = new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT);
 		setMinimumSize(size);
 		setPreferredSize(size);
 		setMaximumSize(size);
