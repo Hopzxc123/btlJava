@@ -2,6 +2,7 @@ package entities;
 
 import static conf.GameConfig.DINO_HEIGHT;
 import static conf.GameConfig.DINO_WIDTH;
+import static conf.GameConfig.DUCK_HEIGHT;
 import static conf.GameConfig.GRAVITY;
 import static conf.GameConfig.JUMP_SPEED;
 import static conf.GameConfig.WINDOW_HEIGHT;
@@ -24,15 +25,12 @@ public class Player extends Entity {
 	private int playAction = RUNNING;
 	private BufferedImage[][] animations;
 	private int aniTick, aniIndex, aniSpeed = 30;
-	private int dinoHeight = 94, dinoWidth = 88;
 	private boolean up, down;
 	private boolean action = false;
 	private float dinosourY = WINDOW_HEIGHT - DINO_HEIGHT;
 	// jumping
 	private boolean inAir = false;
 	private float airSpeed = 0f;
-	private float gravity = 0.6f;
-	private float jumpSpeed = 12.0f;
 	private boolean isDead = false;
 
 	public Player(float x, float y) {
@@ -53,7 +51,6 @@ public class Player extends Entity {
 
 	public void render(Graphics g) {
 		if (isDead) {
-
 			g.drawImage(animations[3][0], (int) x, (int) y, DINO_WIDTH, DINO_HEIGHT, null);
 		} else {
 
@@ -128,6 +125,9 @@ public class Player extends Entity {
 	}
 
 	public Rectangle getBounds() {
+		if (playAction == DUCK) {
+			return new Rectangle((int) x, (int) (y + DINO_HEIGHT - DUCK_HEIGHT), DINO_WIDTH, (int) DUCK_HEIGHT);
+		}
 		return new Rectangle((int) x, (int) y, DINO_WIDTH, DINO_HEIGHT);
 	}
 
