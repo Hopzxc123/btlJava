@@ -26,5 +26,7 @@ public class GameConfig {
 	// bird settings
 	public static final int BIRD_WIDTH = 50;
 	public static final int BIRD_HEIGHT = 40;
+	// score settings
+	public static final int FRONT_SIZE = 20;
 
 }

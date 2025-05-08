@@ -3,6 +3,7 @@ package inputs;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import main.Game;
 import main.GamePanel;
 
 public class KeyboardInputs implements KeyListener {
@@ -20,15 +21,19 @@ public class KeyboardInputs implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_SPACE:
-		case KeyEvent.VK_W:
-			gamePanel.getGame().getPlayer().setUp(true);
-			break;
-		case KeyEvent.VK_S:
-			gamePanel.getGame().getPlayer().setDown(true);
-			break;
+		Game game = gamePanel.getGame();
+		if (game.getGameOver()) {
+			game.resetGame(); // Gọi phương thức reset từ Game
+		} else {
+			switch (e.getKeyCode()) {
+			case KeyEvent.VK_SPACE:
+			case KeyEvent.VK_W:
+				gamePanel.getGame().getPlayer().setUp(true);
+				break;
+			case KeyEvent.VK_S:
+				gamePanel.getGame().getPlayer().setDown(true);
+				break;
+			}
 		}
 	}
 

@@ -11,6 +11,7 @@ import static conf.GameConfig.WINDOW_HEIGHT;
 import static conf.GameConfig.WINDOW_WIDTH;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class Game implements Runnable {
 	private long cactusSpawnCooldown; // Thời gian chờ trước khi spawn cactus mới
 	private boolean canSpawnCactus; // Kiểm soát việc spawn cactus
 	private long lastCactusSpawnTime;
-	boolean gameOver = false;
+	private boolean gameOver = false;
 	ArrayList<Bird> birds = new ArrayList<>();
 	int birdSpawnTimer = 0;
 	private long gameStartTime;
@@ -44,6 +45,13 @@ public class Game implements Runnable {
 	private BufferedImage backgroundImage;
 	private float backgroundX = 0;
 	private float backgroundSpeed = 0.5f;
+	// gameOver
+	private BufferedImage gameOverImage;
+	private BufferedImage restartButtonImage; // Hình ảnh cho nút Restart
+	private Rectangle restartButtonRect; // Vùng kích hoạt cho nút Restart
+	private int restartButtonX, restartButtonY; // Vị trí của nút Restart
+	// Quản lý điểm số
+	private ScoreManager scoreManager;
 
 	public Game() {
 		initClasses();
@@ -62,6 +70,7 @@ public class Game implements Runnable {
 		canSpawnCactus = true; // Ban đầu cho phép spawn cactus
 		cactusSpawnCooldown = 0; // Khởi tạo thời gian chờ
 		gameStartTime = System.currentTimeMillis();
+		scoreManager = new ScoreManager();
 		try {
 			trackImage = ImageIO.read(getClass().getResourceAsStream("/track.png"));
 		} catch (IOException e) {
@@ -71,10 +80,25 @@ public class Game implements Runnable {
 		try {
 			backgroundImage = ImageIO.read(getClass().getResourceAsStream("/background.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} // Thay đường dẫn tới file background.png
+		}
+		try {
+			gameOverImage = ImageIO.read(getClass().getResourceAsStream("/game-over.png")); // Thay đường dẫn tới file
 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			restartButtonImage = ImageIO.read(getClass().getResourceAsStream("/reset.png"));
+			// Tính vị trí và vùng kích hoạt cho nút Restart
+			int buttonWidth = restartButtonImage.getWidth();
+			int buttonHeight = restartButtonImage.getHeight();
+			restartButtonX = WINDOW_WIDTH / 2 - buttonWidth / 2; // Căn giữa
+			restartButtonY = WINDOW_HEIGHT / 2 + 20; // Dịch xuống dưới chữ "GAME OVER"
+			restartButtonRect = new Rectangle(restartButtonX, restartButtonY, buttonWidth, buttonHeight);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void gameLoopStart() {
@@ -104,6 +128,8 @@ public class Game implements Runnable {
 			if (c.getBounds().intersects(player.getBounds())) {
 				player.setDead(true);
 				gameOver = true;
+				scoreManager.setGameOver(true);
+				break;
 
 			}
 			c.update();
@@ -127,10 +153,9 @@ public class Game implements Runnable {
 		birdSpawnTimer++;
 		if (elapsedTime > 5000 && birdSpawnTimer > 200 && !cactusOnScreen) {
 			if (Math.random() < 0.4) { // 40% cơ hội
-				int height = (Math.random() > 0) ? WINDOW_HEIGHT - DINO_HEIGHT - BIRD_HEIGHT + 10
+				int height = (Math.random() > 0.5) ? WINDOW_HEIGHT - DINO_HEIGHT - BIRD_HEIGHT + 10
 						: WINDOW_HEIGHT - BIRD_HEIGHT;
 				birds.add(new Bird(WINDOW_WIDTH - 50, height));
-				System.out.println("Spawned bird!");
 			}
 			birdSpawnTimer = 0;
 		}
@@ -138,7 +163,8 @@ public class Game implements Runnable {
 			if (b.getBounds().intersects(player.getBounds())) {
 				player.setDead(true);
 				gameOver = true;
-				break; // Thoát vòng lặp sau khi phát hiện va chạm
+				scoreManager.setGameOver(true);
+				break;
 			}
 		}
 		for (int i = 0; i < birds.size(); i++) {
@@ -149,6 +175,8 @@ public class Game implements Runnable {
 				i--;
 			}
 		}
+		// Cập nhật điểm số
+		scoreManager.update();
 		// Cập nhật vị trí track
 		trackX -= trackSpeed;
 		if (trackX <= -WINDOW_WIDTH) {
@@ -181,6 +209,22 @@ public class Game implements Runnable {
 
 		for (Bird b : birds) {
 			b.render(g);
+		}
+		// Hiển thị điểm số
+		scoreManager.render(g);
+		// Hiển thị Game Over và nút Restart khi gameOver = true
+		if (gameOver) {
+			// Vẽ hình ảnh "Game Over"
+			int gameOverWidth = gameOverImage.getWidth();
+			int gameOverHeight = gameOverImage.getHeight();
+			int gameOverX = WINDOW_WIDTH / 2 - gameOverWidth / 2;
+			int gameOverY = WINDOW_HEIGHT / 2 - gameOverHeight / 2 - 30; // Dịch lên trên để chừa chỗ cho nút
+			g.drawImage(gameOverImage, gameOverX, gameOverY, gameOverWidth, gameOverHeight, null);
+
+			// Vẽ nút Restart
+			g.drawImage(restartButtonImage, restartButtonX, restartButtonY, restartButtonImage.getWidth(),
+					restartButtonImage.getHeight(), null);
+
 		}
 	}
 
@@ -218,7 +262,6 @@ public class Game implements Runnable {
 
 			if (System.currentTimeMillis() - lastCheck >= 1000) {
 				lastCheck = System.currentTimeMillis();
-				System.out.println("FPS:" + frames + "| UPS:" + updates);
 
 				frames = 0;
 				updates = 0;
@@ -227,11 +270,30 @@ public class Game implements Runnable {
 
 	}
 
+	public void resetGame() {
+		gameOver = false;
+		player.setDead(false);
+		player.setBooleanDir();
+		player.setUp(false);
+		player.setDown(false);
+		cactuses.clear();
+		birds.clear();
+		trackX = 0;
+		backgroundX = 0;
+		lastCactusSpawnTime = System.currentTimeMillis();
+		gameStartTime = System.currentTimeMillis();
+		scoreManager.reset();
+	}
+
 	public void windowFocusLost() {
 		player.setBooleanDir();
 	}
 
 	public Player getPlayer() {
 		return player;
+	}
+
+	public boolean getGameOver() {
+		return gameOver;
 	}
 }
