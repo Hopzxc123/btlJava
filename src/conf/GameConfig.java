@@ -28,5 +28,7 @@ public class GameConfig {
 	public static final int BIRD_HEIGHT = 40;
 	// score settings
 	public static final int FRONT_SIZE = 20;
+	// game setiings
+	public static float SPEED_ENTITIES = 2.0f;
 
 }

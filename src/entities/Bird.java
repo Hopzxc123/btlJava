@@ -1,5 +1,7 @@
 package entities;
 
+import static conf.GameConfig.SPEED_ENTITIES;
+
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -32,7 +34,7 @@ public class Bird {
 	}
 
 	public void update() {
-		x -= speed;
+		x -= SPEED_ENTITIES;
 		updateAnimation();
 	}
 

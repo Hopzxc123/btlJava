@@ -1,5 +1,6 @@
 package entities;
 
+import static conf.GameConfig.SPEED_ENTITIES;
 import static conf.GameConfig.WINDOW_HEIGHT;
 
 import java.awt.Graphics;
@@ -11,7 +12,7 @@ import javax.imageio.ImageIO;
 
 public class Cactus extends Entity {
 	private int width = 34, height = 70; // bạn có thể điều chỉnh
-	private float speed = 2.0f;
+
 	private BufferedImage[] imageCactus;
 	private BufferedImage currentImage;
 
@@ -53,7 +54,7 @@ public class Cactus extends Entity {
 	}
 
 	public void update() {
-		x -= speed;
+		x -= SPEED_ENTITIES;
 	}
 
 	public void render(Graphics g) {

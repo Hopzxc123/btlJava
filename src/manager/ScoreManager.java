@@ -1,4 +1,4 @@
-package main;
+package manager;
 
 import static conf.GameConfig.FRONT_SIZE;
 import static conf.GameConfig.WINDOW_WIDTH;
