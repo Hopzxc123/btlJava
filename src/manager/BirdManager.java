@@ -15,7 +15,8 @@ public class BirdManager {
 	private ArrayList<Bird> birds = new ArrayList<>();
 	private int spawnTimer = 0;
 
-	public void update(Player player, GameOverManager gameOverManager, long elapsedTime, boolean cactusOnScreen) {
+	public void update(Player player, ScoreManager score, GameOverManager gameOverManager, long elapsedTime,
+			boolean cactusOnScreen) {
 		spawnTimer++;
 		if (elapsedTime > 5000 && spawnTimer > 200 && !cactusOnScreen) {
 			if (Math.random() < 0.4) {
@@ -31,6 +32,7 @@ public class BirdManager {
 			if (b.getBounds().intersects(player.getBounds())) {
 				player.setDead(true);
 				gameOverManager.setGameOver(true);
+				score.setGameOver(gameOverManager.isGameOver());
 				break;
 			}
 			b.update();

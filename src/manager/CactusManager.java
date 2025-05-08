@@ -24,7 +24,7 @@ public class CactusManager {
 		spawnCooldown = 0;
 	}
 
-	public void update(Player player, GameOverManager gameOverManager, boolean birdOnScreen) {
+	public void update(Player player, ScoreManager score, GameOverManager gameOverManager, boolean birdOnScreen) {
 		long currentTime = System.currentTimeMillis();
 		if (currentTime - lastSpawnTime >= CACTUS_SPAWN_INTERVAL && canSpawn && !birdOnScreen) {
 			cactuses.add(new Cactus(WINDOW_WIDTH - 50, WINDOW_HEIGHT - CACTUS_HEIGHT));
@@ -38,6 +38,7 @@ public class CactusManager {
 			if (c.getBounds().intersects(player.getBounds())) {
 				player.setDead(true);
 				gameOverManager.setGameOver(true);
+				score.setGameOver(gameOverManager.isGameOver());
 				break;
 			}
 			c.update();

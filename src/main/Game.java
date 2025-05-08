@@ -63,8 +63,8 @@ public class Game implements Runnable {
 		boolean birdOnScreen = !birdManager.isEmpty();
 		boolean cactusOnScreen = !cactusManager.isEmpty();
 
-		cactusManager.update(player, gameOverManager, birdOnScreen);
-		birdManager.update(player, gameOverManager, elapsedTime, cactusOnScreen);
+		cactusManager.update(player, scoreManager, gameOverManager, birdOnScreen);
+		birdManager.update(player, scoreManager, gameOverManager, elapsedTime, cactusOnScreen);
 
 		// Cập nhật điểm số
 		scoreManager.update();
