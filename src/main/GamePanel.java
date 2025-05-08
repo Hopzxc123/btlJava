@@ -14,8 +14,12 @@ import inputs.MouseInputs;
 public class GamePanel extends JPanel {
 	private MouseInputs mouseInputs;
 	private Game game;
-
+	private KeyboardInputs keyboardInputs;//thêm để k bị lỗi bàn phím
+	
 	public GamePanel(Game game) {
+		keyboardInputs = new KeyboardInputs(this);
+        addKeyListener(keyboardInputs);
+        setFocusable(true);  // Quan trọng để nhận sự kiện bàn phím
 
 		mouseInputs = new MouseInputs(this);
 		this.game = game;

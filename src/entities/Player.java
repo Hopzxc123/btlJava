@@ -125,10 +125,18 @@ public class Player extends Entity {
 	}
 
 	public Rectangle getBounds() {
-		if (playAction == DUCK) {
-			return new Rectangle((int) x, (int) (y + DINO_HEIGHT - DUCK_HEIGHT), DINO_WIDTH, (int) DUCK_HEIGHT);
-		}
-		return new Rectangle((int) x, (int) y, DINO_WIDTH, DINO_HEIGHT);
+	    // Kiểm tra nếu khủng long đang cúi
+	    if (playAction == DUCK) {
+	        return new Rectangle((int) x, (int) (y + DINO_HEIGHT - DUCK_HEIGHT), DINO_WIDTH, (int) DUCK_HEIGHT);
+	    }
+	    
+	    // Kiểm tra nếu khủng long đang nhảy
+	    if (inAir ) {
+	        return new Rectangle((int) x + 10, (int) y + 5, DINO_WIDTH - 45, DINO_HEIGHT - 10);
+	    }
+	    
+	    // Nếu không cúi và không nhảy
+	    return new Rectangle((int) x + 10, (int) y + 5, DINO_WIDTH-20, DINO_HEIGHT - 10);
 	}
 
 	public void setBooleanDir() {
