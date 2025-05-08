@@ -11,7 +11,6 @@ import java.util.Iterator;
 
 import entities.Cactus;
 import entities.Player;
-import state.GameOverManager;
 
 public class CactusManager {
 	private ArrayList<Cactus> cactuses = new ArrayList<>();

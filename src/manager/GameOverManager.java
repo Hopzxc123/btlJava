@@ -1,4 +1,4 @@
-package state;
+package manager;
 
 import static conf.GameConfig.WINDOW_HEIGHT;
 import static conf.GameConfig.WINDOW_WIDTH;

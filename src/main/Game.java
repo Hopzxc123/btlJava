@@ -10,8 +10,8 @@ import entities.Environment;
 import entities.Player;
 import manager.BirdManager;
 import manager.CactusManager;
+import manager.GameOverManager;
 import manager.ScoreManager;
-import state.GameOverManager;
 
 public class Game implements Runnable {
 	private GameWindow gameWindow;

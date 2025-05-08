@@ -18,6 +18,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import audio.SoundPlayer;
+
 public class Player extends Entity {
 	private String[] frameNames = { "dino-run1.png", "dino-run2.png", "dino-jump.png", "dino-duck1.png",
 			"dino-duck2.png", "dino-dead.png" };
@@ -125,7 +127,6 @@ public class Player extends Entity {
 	}
 
 	public Rectangle getBounds() {
-<<<<<<< HEAD
 
 		// Kiểm tra nếu khủng long đang cúi
 		if (playAction == DUCK) {
@@ -134,26 +135,12 @@ public class Player extends Entity {
 
 		// Kiểm tra nếu khủng long đang nhảy
 		if (inAir) {
-			return new Rectangle((int) x + 10, (int) y + 5, DINO_WIDTH - 40, DINO_HEIGHT - 10);
+			return new Rectangle((int) x + 10, (int) y + 5, DINO_WIDTH - 45, DINO_HEIGHT - 10);
 		}
 
-		// Nếu không cúi và không nhảy, dùng chiều rộng là DINO_WIDTH
-		return new Rectangle((int) x + 10, (int) y + 5, DINO_WIDTH - 10, DINO_HEIGHT - 10);
+		// Nếu không cúi và không nhảy
+		return new Rectangle((int) x + 10, (int) y + 5, DINO_WIDTH - 20, DINO_HEIGHT - 10);
 
-=======
-	    // Kiểm tra nếu khủng long đang cúi
-	    if (playAction == DUCK) {
-	        return new Rectangle((int) x, (int) (y + DINO_HEIGHT - DUCK_HEIGHT), DINO_WIDTH, (int) DUCK_HEIGHT);
-	    }
-	    
-	    // Kiểm tra nếu khủng long đang nhảy
-	    if (inAir ) {
-	        return new Rectangle((int) x + 10, (int) y + 5, DINO_WIDTH - 45, DINO_HEIGHT - 10);
-	    }
-	    
-	    // Nếu không cúi và không nhảy
-	    return new Rectangle((int) x + 10, (int) y + 5, DINO_WIDTH-20, DINO_HEIGHT - 10);
->>>>>>> 06b15679b206370f63636f9cfbbbb3df23913523
 	}
 
 	public void setBooleanDir() {
@@ -170,6 +157,7 @@ public class Player extends Entity {
 		if (up && !this.inAir && y >= dinosourY) {
 			this.inAir = true;
 			this.airSpeed = -JUMP_SPEED; // reset lực nhảy
+			SoundPlayer.playSound();
 		}
 
 	}

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import entities.Bird;
 import entities.Player;
-import state.GameOverManager;
 
 public class BirdManager {
 	private ArrayList<Bird> birds = new ArrayList<>();
