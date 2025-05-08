@@ -60,11 +60,12 @@ public class Game implements Runnable {
 
 		long currentTime = System.currentTimeMillis();
 		long elapsedTime = currentTime - gameStartTime;
-
-		cactusManager.update(player, gameOverManager);
+		boolean birdOnScreen = !birdManager.isEmpty();
 		boolean cactusOnScreen = !cactusManager.isEmpty();
 
+		cactusManager.update(player, gameOverManager, birdOnScreen);
 		birdManager.update(player, gameOverManager, elapsedTime, cactusOnScreen);
+
 		// Cập nhật điểm số
 		scoreManager.update();
 

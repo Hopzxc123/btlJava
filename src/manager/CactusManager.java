@@ -25,9 +25,9 @@ public class CactusManager {
 		spawnCooldown = 0;
 	}
 
-	public void update(Player player, GameOverManager gameOverManager) {
+	public void update(Player player, GameOverManager gameOverManager, boolean birdOnScreen) {
 		long currentTime = System.currentTimeMillis();
-		if (currentTime - lastSpawnTime >= CACTUS_SPAWN_INTERVAL && canSpawn) {
+		if (currentTime - lastSpawnTime >= CACTUS_SPAWN_INTERVAL && canSpawn && !birdOnScreen) {
 			cactuses.add(new Cactus(WINDOW_WIDTH - 50, WINDOW_HEIGHT - CACTUS_HEIGHT));
 			lastSpawnTime = currentTime;
 			canSpawn = false;
