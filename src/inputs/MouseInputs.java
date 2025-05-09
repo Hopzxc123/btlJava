@@ -16,7 +16,10 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
+		Game game = gamePanel.getGame();
+		if (game.getGameOver()) {
+			game.resetGame();
+		}
 	}
 
 	@Override
@@ -24,9 +27,12 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 		Game game = gamePanel.getGame();
 		if (game.getGameOver()) {
 			game.resetGame();
+		} else if (game.isWaitingToStart()) {
+			game.setWaitingToStart(false); // bắt đầu game khi nhấn phím
 		} else {
 			gamePanel.getGame().getPlayer().setUp(true);
 		}
+
 	}
 
 	@Override

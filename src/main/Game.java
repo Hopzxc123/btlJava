@@ -5,6 +5,8 @@ import static conf.GameConfig.FPS_SET;
 import static conf.GameConfig.SPEED_ENTITIES;
 import static conf.GameConfig.UPS_SET;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import entities.Environment;
@@ -15,7 +17,6 @@ import manager.GameOverManager;
 import manager.ScoreManager;
 
 public class Game implements Runnable {
-	private GameWindow gameWindow;
 	private GamePanel gamePanel;
 	private Thread gameThread;
 	private Player player;
@@ -26,11 +27,12 @@ public class Game implements Runnable {
 	private CactusManager cactusManager;
 	private BirdManager birdManager;
 	private int lastSpeedUpScore = 0; // lưu điểm khi gần nhất đã tăng tốc
+	private boolean waitingToStart = true;
 
 	public Game() {
 		initClasses();
 		gamePanel = new GamePanel(this);
-		gameWindow = new GameWindow(gamePanel);
+		new GameWindow(gamePanel);
 
 		gamePanel.requestFocus();
 		gameLoopStart();
@@ -55,7 +57,7 @@ public class Game implements Runnable {
 
 	public void update() {
 
-		if (gameOverManager.isGameOver()) {
+		if (gameOverManager.isGameOver() || waitingToStart) {
 			return; // Không cập nhật gì nữa nếu đã game over
 		}
 		player.update();
@@ -81,15 +83,21 @@ public class Game implements Runnable {
 	}
 
 	public void render(Graphics g) {
-		environment.render(g);
-		player.render(g);
-		cactusManager.render(g);
-		birdManager.render(g);
+		if (waitingToStart) {
 
-		// Hiển thị điểm số
-		scoreManager.render(g);
-		// Hiển thị Game Over và nút Restart khi gameOver = true
-		gameOverManager.render(g);
+			player.render(g);
+			g.setColor(Color.BLACK);
+			g.setFont(new Font("Arial", Font.BOLD, 24));
+			g.drawString("Nhấn SPACE để bắt đầu", 250, 150);
+		} else {
+			// Khi đã bắt đầu game thì vẽ mọi thứ
+			environment.render(g);
+			player.render(g);
+			cactusManager.render(g);
+			birdManager.render(g);
+			scoreManager.render(g);
+			gameOverManager.render(g);
+		}
 	}
 
 	@Override
@@ -160,4 +168,13 @@ public class Game implements Runnable {
 	public boolean getGameOver() {
 		return gameOverManager.isGameOver();
 	}
+
+	public boolean isWaitingToStart() {
+		return waitingToStart;
+	}
+
+	public void setWaitingToStart(boolean waitingToStart) {
+		this.waitingToStart = waitingToStart;
+	}
+
 }

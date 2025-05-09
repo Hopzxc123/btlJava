@@ -28,7 +28,12 @@ public class KeyboardInputs implements KeyListener {
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_SPACE:
 			case KeyEvent.VK_W:
-				gamePanel.getGame().getPlayer().setUp(true);
+				if (game.isWaitingToStart()) {
+					game.setWaitingToStart(false); // bắt đầu game khi nhấn phím
+				} else {
+					gamePanel.getGame().getPlayer().setUp(true);
+				}
+
 				break;
 			case KeyEvent.VK_S:
 				gamePanel.getGame().getPlayer().setDown(true);
