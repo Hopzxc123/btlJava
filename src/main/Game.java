@@ -2,6 +2,7 @@ package main;
 
 import static conf.GameConfig.DINO_START_X;
 import static conf.GameConfig.FPS_SET;
+import static conf.GameConfig.SPEED_ENTITIES;
 import static conf.GameConfig.UPS_SET;
 
 import java.awt.Graphics;
@@ -24,6 +25,7 @@ public class Game implements Runnable {
 	private GameOverManager gameOverManager;
 	private CactusManager cactusManager;
 	private BirdManager birdManager;
+	private int lastSpeedUpScore = 0; // lưu điểm khi gần nhất đã tăng tốc
 
 	public Game() {
 		initClasses();
@@ -68,7 +70,11 @@ public class Game implements Runnable {
 
 		// Cập nhật điểm số
 		scoreManager.update();
-
+		int currentScore = scoreManager.getScore();
+		if (currentScore != 0 && currentScore % 100 == 0 && currentScore != lastSpeedUpScore) {
+			SPEED_ENTITIES += 0.5;
+			lastSpeedUpScore = currentScore;
+		}
 		// Cập nhật vị trí track
 		environment.update();
 
@@ -129,6 +135,8 @@ public class Game implements Runnable {
 	}
 
 	public void resetGame() {
+		lastSpeedUpScore = 0;
+		SPEED_ENTITIES = 2.0f;
 		gameOverManager.reset();
 		player.setDead(false);
 		player.setBooleanDir();

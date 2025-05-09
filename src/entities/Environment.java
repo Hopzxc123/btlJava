@@ -16,9 +16,9 @@ public class Environment {
 	private float backgroundX = 0;
 	private float trackX = 0;
 
-	private final float backgroundSpeed = 0.5f;
-	private final float trackSpeed = 2.0f;
-	private final int trackHeight = 50;
+	private float backgroundSpeed = 0.5f;
+	private float trackSpeed = 2.0f;
+	private int trackHeight = 50;
 
 	public Environment() {
 		try {
@@ -53,4 +53,21 @@ public class Environment {
 		backgroundX = 0;
 		trackX = 0;
 	}
+
+	public float getBackgroundSpeed() {
+		return backgroundSpeed;
+	}
+
+	public void setBackgroundSpeed(float backgroundSpeed) {
+		this.backgroundSpeed = backgroundSpeed;
+	}
+
+	public float getTrackSpeed() {
+		return trackSpeed;
+	}
+
+	public void setTrackSpeed(float trackSpeed) {
+		this.trackSpeed = trackSpeed;
+	}
+
 }
