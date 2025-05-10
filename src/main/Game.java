@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
+import conf.GameConfig;
 import entities.Environment;
 import entities.Player;
 import manager.BirdManager;
@@ -30,6 +31,8 @@ public class Game implements Runnable {
 	private boolean waitingToStart = true;
 
 	public Game() {
+		GameConfig.loadConfig("config.ini");
+
 		initClasses();
 		gamePanel = new GamePanel(this);
 		new GameWindow(gamePanel);

@@ -21,9 +21,6 @@ import javax.imageio.ImageIO;
 import audio.SoundPlayer;
 
 public class Player extends Entity {
-	private String[] frameNames = { "dino-run1.png", "dino-run2.png", "dino-jump.png", "dino-duck1.png",
-			"dino-duck2.png", "dino-dead.png" };
-
 	private int playAction = RUNNING;
 	private BufferedImage[][] animations;
 	private int aniTick, aniIndex, aniSpeed = 30;

@@ -12,7 +12,6 @@ import javax.imageio.ImageIO;
 public class Bird {
 	private int x, y;
 	private int width = 50, height = 40;
-	private int speed = 2;
 
 	private BufferedImage[] frames;
 	private int aniTick = 0, aniIndex = 0, aniSpeed = 60;
